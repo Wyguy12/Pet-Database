@@ -1,0 +1,20 @@
+/* 
+
+Ensure you set the JAVA_FX_LIB_PATH environment variable on your system.
+
+run Pet-Database
+*/
+{
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch pet-database",
+            "request": "launch",
+            "mainClass": "com.wyattfredrickson.PetDatabase",
+            "projectName": "pet-database",
+             "vmArgs": "--module-path \"${env:JAVA_FX_LIB_PATH}\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
