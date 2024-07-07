@@ -38,6 +38,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/InputMismatchException.html
 /**
  * PetDatabase class that will hold all the pet objects.
  * Display all pets, add a new pet, and exit the program.
+ * Search for a pet by name and age.
  * Each pet will have a name and age with a unique ID tied to each pet.
 */
 public class PetDatabase {
@@ -74,10 +75,16 @@ public class PetDatabase {
                             break;
                         case 3:
                             saveDatabase(); // Save the database to the file.
-                            running = false; // Exit from the main program loop.
+                            running = false; // Set the running variable to false to exit the program.
+                            break;
+                        case 4:
+                            searchPetsByName(); // Search for a pet by name.
+                            break;
+                        case 5:
+                            searchPetsByAge(); // Search for a pet by age.
                             break;
                         default:
-                            System.out.println("Invalid choice. Please enter a number between 1 and 3."); // Handle invalid choices.
+                            System.out.println("Invalid choice. Please enter a number between 1 and 5."); // Handle invalid choices.
                             break;
                     }
                 } catch (InputMismatchException ime) { // Catch the input mismatch exception.
@@ -138,15 +145,17 @@ public class PetDatabase {
                 System.out.println("1) View all pets");
                 System.out.println("2) Add new pets");
                 System.out.println("3) Exit Program");
+                System.out.println("4) Search pets by name");
+                System.out.println("5) Search pets by age");
                 System.out.print("Your choice: ");
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt(); // Read the user's choice.
                     scanner.nextLine(); // Clear the scanner buffer.
          
-                    if (choice >= 1 && choice <= 3) { // If the user choice is between 1 and 3.
+                    if (choice >= 1 && choice <= 5) { // If the user choice is between 1 and 5.
                         return choice; // Return the user choice.
                     } else { // Else statement.
-                        System.out.println("Invalid choice. Please enter a valid option between 1 and 3."); // Prompt the user they have selected incorrectly. 
+                        System.out.println("Invalid choice. Please enter a valid option between 1 and 5."); // Prompt the user they have selected incorrectly. 
                     }
             } else {
                 System.out.println("Invalid input. Please enter a number."); // Inform the user there is an error message.
@@ -204,9 +213,18 @@ public class PetDatabase {
                     addPet(name, age);
                 } catch (Exception e) { 
                     System.out.println("Invalid input. Please enter in the format 'name, age'. Example: Monster, 14");
+                }
             }
         }
-    }
+
+
+        /**
+         * Method to add a pet to the database.
+         * @param name The name of the pet.
+         * @param age The age of the pet.
+         * @throws IndexOutOfBoundsException If the pet array is full.
+         * @throws IllegalArgumentException If the age is not between 1 and 50.
+         */
         static void addPet(String name, int age) throws IndexOutOfBoundsException, IllegalArgumentException { // Add a pet to the database.
             // Check if the database is full.
             if (petCount >= PETCAPACITY) { // If the pet count is greater than or equal to the pet capacity.
@@ -215,6 +233,48 @@ public class PetDatabase {
             // Otherwise, create a pet and store in variable 'newPet' with a new 'name' and 'age' and add it to the pets array.
             Pet newPet = new Pet(name, age); // Create a new pet object.
             pets[petCount++] = newPet; // Add the pet to the array.
+        }
+
+
+        /**
+         * Searches for pets by name.
+         * 
+         */
+        static void searchPetsByName() {
+            System.out.println("Enter the name to search for: "); // Prompt the user to enter the name.
+            String name = scanner.nextLine().trim(); // Read the user input and trim any whitespace.
+
+            printTableHeader(); // Print the table header.
+            int count = 0; // Initialize a variable to keep track of the number of pets displayed.
+
+            for (int i = 0; i < petCount; i++) { // Loop through the pets array.
+                if (pets[i] != null && pets[i].getName().equalsIgnoreCase(name)) { // Check if the pet is not null and the name matches.
+                    printTableRow(i, pets[i].getName(), pets[i].getAge()); // Print the pet details.
+                    count++; // Increment the count variable.
+                }
+            }
+            printTableFooter(count); // Print the table footer.
+        }
+
+        /**
+         * Searches for pets by name.
+         * 
+         */
+        static void searchPetsByAge() {
+            System.out.println("Enter the age to search for: "); // Prompt the user to enter the age. 
+            int age = scanner.nextInt(); // Read the user input and trim any whitespace.
+            scanner.nextLine(); // Clear the scanner buffer.
+
+            printTableHeader(); // Print the table header.
+            int count = 0; // Initialize a variable to keep track of the number of pets displayed.
+
+            for (int i = 0; i < petCount; i++) { // Loop through the pets array.
+                if (pets[i] != null && pets[i].getAge() == age) { // Check if the pet is not null and the age matches.
+                    printTableRow(i, pets[i].getName(), pets[i].getAge()); // Print the pet details.
+                    count++; // Increment the count variable.
+                }
+            }
+            printTableFooter(count); // Print the table footer.
         }
 
 
