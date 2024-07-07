@@ -1,40 +1,37 @@
 
 ## Pet-Database Console-Based Application
 
+
 ## Description
-This project is a very simple pet database management system that allows users to view, add and save pet information (name, age) with a unique ID associated with each pet. 
+This project is a very simple pet database management system that allows users to view, add and save pet information (name, age).
+Unique ID associated with each pet. 
 
 
 ## Program features
 - View all the pets in a clean formatted table.
 - Add new pets to the database.
 - Save the database to a txt file to write/read. 
+- Search pet by name.
+- Search pet by age.
+- Update an existing pet
+- Remove an existing pet
 
 
 ## Usage
 When you run the program, you will be presented with a menu:
 1. View all pets
 2. Add new pets
-3. Exit Program
-
-
-### Viewing Pets
-- To view all pets, select option `1`.
-
-### Adding Pets
-- To add a new pet, select option `2`.
-- Enter the pet details in the format: `name, age`.
-- Type `done` to finish adding pets.
-
-### Saving and Exiting
-- To save the database and exit the program, select option `3`.
-
+3. Update an existing pet
+4. Remove an existing pet
+5. Search pets by name
+6. Search pets by age
+7. Exit Program
 
 ## Acknowledgments
 - The list of 100 pet names and ages was generated using AI.
 
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
 
 **Note:** This README was partially generated with the help of AI.

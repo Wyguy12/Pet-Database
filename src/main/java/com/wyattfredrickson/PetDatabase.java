@@ -40,7 +40,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/InputMismatchException.html
  * Display all pets, add a new pet, and exit the program.
  * Search for a pet by name and age.
  * Each pet will have a name and age with a unique ID tied to each pet.
-*/
+ */
 public class PetDatabase {
     // Create an array called 'pets' that will hold all '100 pet' Objects.
     static final int PETCAPACITY = 100; // Set the pet capacity to 100.                      
@@ -57,12 +57,13 @@ public class PetDatabase {
      * @throws InputMismatchException If the user enters an invalid choice.
      * @throws IOException If there is an error reading the file.
      * @param args The arguments passed to the program.
-    */
+     */
     public static void main(String[] args) throws IllegalArgumentException {
         // TRY block to catch any exceptions.
         try {
             loadDatabase(); // Load the database at the start. 
             boolean running = true; // Set the running variable to true.
+
             while (running) { // While the running variable is true.
                 try {
                     int userChoice = getUserChoice(); // Get the user choice and store in variable "userChoice"
@@ -74,17 +75,23 @@ public class PetDatabase {
                             addPets(); // Add a new pet.
                             break;
                         case 3:
-                            saveDatabase(); // Save the database to the file.
-                            running = false; // Set the running variable to false to exit the program.
+                            updatePet(); // Update a pet.
                             break;
                         case 4:
-                            searchPetsByName(); // Search for a pet by name.
+                            removePet(); // Remove a pet.
                             break;
                         case 5:
+                            searchPetsByName(); // Search for a pet by name.
+                            break;
+                        case 6:
                             searchPetsByAge(); // Search for a pet by age.
                             break;
+                        case 7:
+                            saveDatabase(); // Exit program & save the database to the file.
+                            running = false; // Set the running variable to false to exit the program.
+                            break;
                         default:
-                            System.out.println("Invalid choice. Please enter a number between 1 and 5."); // Handle invalid choices.
+                            System.out.println("Invalid choice. Please enter a number between 1 and 7."); // Handle invalid choices.
                             break;
                     }
                 } catch (InputMismatchException ime) { // Catch the input mismatch exception.
@@ -105,7 +112,7 @@ public class PetDatabase {
          * Method to load the database from the file.
          * @throws IOException If there is an error writing to the file.
          * @throws IllegalArgumentException If the pet ID is invalid.
-        */
+         */
         static void loadDatabase() throws IOException {
             File file = new File(FILENAME); // Access the file via the String variable "fileName". Create new file "object".
             try (Scanner scanner = new Scanner(file)) { // Open a scanner to read the file.
@@ -137,25 +144,27 @@ public class PetDatabase {
         /**
          * Displays a menu and returns the user's choice.
          * @return The user's menu choice as an integer.
-        */
+         */
         static int getUserChoice() {
             // Display the menu options.
             while (true) { // Loop until the user enters a valid choice.
                 System.out.println("What would you like to do?");
                 System.out.println("1) View all pets");
-                System.out.println("2) Add new pets");
-                System.out.println("3) Exit Program");
-                System.out.println("4) Search pets by name");
-                System.out.println("5) Search pets by age");
+                System.out.println("2) Add more pets");
+                System.out.println("3) Update an existing pet");
+                System.out.println("4) Remove an existing pet");
+                System.out.println("5) Search pets by name");
+                System.out.println("6) Search pets by age");
+                System.out.println("7) Exit program");
                 System.out.print("Your choice: ");
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt(); // Read the user's choice.
                     scanner.nextLine(); // Clear the scanner buffer.
          
-                    if (choice >= 1 && choice <= 5) { // If the user choice is between 1 and 5.
+                    if (choice >= 1 && choice <= 7) { // If the user choice is between 1 and 7.
                         return choice; // Return the user choice.
                     } else { // Else statement.
-                        System.out.println("Invalid choice. Please enter a valid option between 1 and 5."); // Prompt the user they have selected incorrectly. 
+                        System.out.println("Invalid choice. Please enter a valid option between 1 and 7."); // Prompt the user they have selected incorrectly. 
                     }
             } else {
                 System.out.println("Invalid input. Please enter a number."); // Inform the user there is an error message.
@@ -168,7 +177,7 @@ public class PetDatabase {
         /**
          * Displays all pets in a formatted table.
          * @throws IllegalArgumentException If the age is not between 1 and 50.
-        */
+         */
         static void showAllPets() throws IllegalArgumentException {
             // Print the table header.
             printTableHeader();
@@ -178,9 +187,9 @@ public class PetDatabase {
 
             // Next we iterate through the 'pets' array and print each pet's details. 
             for (int i = 0; i < petCount; i++) {
-                if (pets[i] != null) {
-                    printTableRow(i, pets[i].getName(), pets[i].getAge());
-                    count++;
+                if (pets[i] != null) { // Check if the pet is not null.
+                    printTableRow(i, pets[i].getName(), pets[i].getAge()); // Print the pet details.
+                    count++; // Increment the count variable.
                 }
             }
             // Print the table footer, showing the number of rows displayed next.
@@ -192,7 +201,7 @@ public class PetDatabase {
          * Allows the user to add pets until 'done' is entered.
          * @throws IllegalArgumentException If the age is not between 1 and 50.
          * @throws IndexOutOfBoundsException If the pet array is full.
-        */
+         */
         static void addPets() throws IndexOutOfBoundsException, IllegalArgumentException {
             // Prompt the user to enter pet details.
             System.out.println("Enter pet details (name, age) or type 'done' to finish:");
@@ -256,6 +265,7 @@ public class PetDatabase {
             printTableFooter(count); // Print the table footer.
         }
 
+
         /**
          * Searches for pets by name.
          * 
@@ -275,6 +285,60 @@ public class PetDatabase {
                 }
             }
             printTableFooter(count); // Print the table footer.
+        }
+
+
+        /**
+         * Method to update a pet in the database.
+         */
+        static void updatePet() {
+            showAllPets(); // Display all pets.
+            System.out.println("Enter the pet ID you want to update:"); // Prompt the user to enter the pet ID.
+            int id = scanner.nextInt(); // Read the user input and trim any whitespace.
+            scanner.nextLine(); // Clear the scanner buffer.
+
+            if (id >= 0 && id < petCount && pets[id] != null) { // Check if the ID is valid and the pet exists.
+                System.out.println("Enter the new name and new age seperated by a comma: "); // Prompt the user to enter the new name and age.
+                String input = scanner.nextLine().trim(); // Read the user input and trim any whitespace.
+               
+                try {
+                    String[] parts = input.split("\\s*,\\s*"); // Split the input by comma, ignoring spaces around it.
+                    if (parts.length != 2) { 
+                        throw new IllegalArgumentException("Input should be in the format 'name', 'age'.");
+                    }
+                    String name = parts[0].trim(); // Extract the name and trim any whitespace away.
+                    int newAge = Integer.parseInt(parts[1].trim()); // Extract the age and trim any whitespace away.
+
+                    pets[id].setName(name); // Set the new name.
+                    pets[id].setAge(newAge); // Set the new age.
+                    System.out.println("Pet updated successfully."); // Confirm the pet has been updated.
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter in the format 'name, age'. Example: Monster, 14"); // Inform the user there is an error message.
+                }
+            } else {
+                System.out.println("Invalid pet ID."); // Inform the user there is an error message.
+            }
+        }
+
+        
+        /**
+         * Method to remove a pet from the database.
+         */
+        static void removePet() {
+            showAllPets(); // Display all pets.
+            System.out.println("Enter the pet ID you want to remove:"); // Prompt the user to enter the pet ID.
+            int id = scanner.nextInt(); // Read the user input and trim any whitespace.
+            scanner.nextLine(); // Clear the scanner buffer.
+
+            if (id >= 0 && id < petCount && pets[id] != null) {
+                for (int i = id; i < petCount - 1; i++) {
+                    pets[i] = pets[i + 1];
+                }
+                pets[--petCount] = null;
+                System.out.println("Pet removed successfully");
+            } else {
+                System.out.println("Invalid pet ID.");
+            }
         }
 
 
@@ -327,7 +391,7 @@ public class PetDatabase {
         /**
          * Saves the current pet data to the file.
          * @throws IOException If an error occurs during file writing.
-        */
+         */
         static void saveDatabase() throws IOException {
             // Create a FileWriter object to write to "pets.txt".
             // Using try-with-resources, making sure the FileWriter is closed after use. 
@@ -344,5 +408,7 @@ public class PetDatabase {
                 }
                 // The FileWriter is closed automatically from the try-with-resources.
                 }
+            }
+        
+
         }
-    }
