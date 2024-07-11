@@ -14,7 +14,7 @@ public class Pet {
      * Constructor for the pet class.
      * @param name The name of the pet.
      * @param age The age of the pet.
-     * @throws IllegalArgumentException If the age is not between 1 and 50.
+     * @throws IllegalArgumentException If the age is not between 1 and 20.
     */
     public Pet(String name, int age) throws IllegalArgumentException {
         this.name = name; // Set name to name instance 
@@ -27,7 +27,7 @@ public class Pet {
      * @return The name of the pet.
     */
     public String getName() {
-        return name; // Getter method.
+        return name; 
     }
  
  
@@ -36,20 +36,16 @@ public class Pet {
      * @param name The new name for the pet. 
     */
     public void setName(String name) {
-        this.name = name; // Setter method.
+        this.name = name; 
     }
  
  
     /**
      * Returns the age of the pet.
      * @return The age of the pet.
-     * @throws IllegalArgumentException If the age is not valid.
     */
-    public int getAge() throws IllegalArgumentException {
-        if (age < 1 || age > 50) {
-            throw new IllegalArgumentException("Age must be between 1 and 50.");
-        }
-        return age; // Getter method.
+    public int getAge() {
+        return age; 
     }
  
  
@@ -57,12 +53,12 @@ public class Pet {
      * Sets the age of the pet.
      * Validates the age before setting. 
      * @param age The age to set.
-     * @throws IllegalArgumentException If the age is not between 1 and 50.
+     * @throws IllegalArgumentException If the age is not between 1 and 20.
     */
     public void setAge(int age) throws IllegalArgumentException {
-        if (age < 1 || age > 50) {
-            throw new IllegalArgumentException("Age must be between 1 and 50.");
+        if (age < 1 || age > 20) {
+            throw new IllegalArgumentException("Error: " + age + "is not a valid age.");
         }
-        this.age = age; // Setter method.
+        this.age = age; 
     }
 }

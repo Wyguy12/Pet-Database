@@ -10,25 +10,19 @@ Unique ID associated with each pet.
 ## Program features
 - View all the pets in a clean formatted table.
 - Add new pets to the database.
-- Save the database to a txt file to write/read. 
-- Search pet by name.
-- Search pet by age.
-- Update an existing pet
 - Remove an existing pet
+- Save the database to a txt file to write/read. 
 
 
 ## Usage
 When you run the program, you will be presented with a menu:
 1. View all pets
 2. Add new pets
-3. Update an existing pet
-4. Remove an existing pet
-5. Search pets by name
-6. Search pets by age
-7. Exit Program
+3. Remove an existing pet
+4. Exit Program
 
 ## Acknowledgments
-- The list of 100 pet names and ages was generated using AI.
+- The list of 5 pet names and ages was generated using AI.
 
 
 ## License
