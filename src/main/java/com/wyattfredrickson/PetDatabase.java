@@ -2,12 +2,13 @@ package com.wyattfredrickson;
 
 
 // Import necessary libraries
-import java.io.File;
+
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import java.io.BufferedReader;
 
 /* 
 
@@ -96,14 +97,12 @@ public class PetDatabase {
         }
     }  
 
-        /**
-         * Method to load the database from the file.
-         * @throws IOException If there is an error writing to the file.
-         * @throws IllegalArgumentException If the pet ID is invalid.
-         */
+
         static void loadDatabase() throws IOException {
-            File file = new File(FILENAME); // Access the file via the String variable "fileName". Create new file "object".
-            try (Scanner scanner = new Scanner(file)) { // Open a scanner to read the file.
+            String fileName = "pets.txt"; // Set the file name to pets.txt.
+            try (BufferedReader petFile = new BufferedReader(new FileReader(fileName));
+                Scanner scanner = new Scanner(petFile)) {// Create a new scanner object to read the file.
+
                 while (scanner.hasNextLine()) { // Loop until the end of the file.
                     String line = scanner.nextLine(); // Read the next line from the file.
 
